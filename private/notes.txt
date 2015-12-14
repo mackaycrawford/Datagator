@@ -1,0 +1,21 @@
+
+git clone --origin source https://github.com/sirmartymoose/meteorTempalte.git 
+cd meteorTempalte
+git init
+git add .
+git commit -m 'First commit'
+git remote add origin https://github.com/sirmartymoose/meteorQuick.git
+git remote -v
+git push -u origin master
+git push origin master
+curl https://install.meteor.com/ | sh
+
+
+Libraries: 
+
+meteor add iron:router
+meteor add mrt:bootstrap-3
+meteor add robincwillis:handsontable
+meteor add maazalik:highcharts
+meteor add accounts-ui accounts-password
+//meteor remove autopublish

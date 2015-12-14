@@ -1,0 +1,25 @@
+<template name="testPage">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-2"></div>
+      <div class="col-xs-8">
+        <div class="page-header">
+          <h1>{{showData}}</h1>
+        </div>
+      </div>
+      <div class="col-xs-2"></div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2"></div>
+      <div class="col-xs-8">
+        <ul class="list-group">
+          {{# each listData}}
+            <li class='list-group-item'>{{myKey}}</li>
+          {{/ each}}
+        </ul>
+      </div>
+      <div class="col-xs-2"></div>
+
+    </div>
+  </div>
+</template>

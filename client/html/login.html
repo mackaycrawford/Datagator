@@ -1,0 +1,55 @@
+<template name="login">
+  <div class="row">
+    <div class="col-xs-0 col-md-3"></div>
+    <div class="col-xs-12 col-md-6">
+      <div class='row'>
+        <div class='col-xs-12'>
+          <div class="page-header">
+            <h3>Login to your account</h3>
+
+          </div>
+        </div>
+      </div>
+      <div class='row'>
+        <div class='col-xs-12'>
+          <div class="panel panel-default">
+            <!-- Default panel contents -->
+            <div class="panel-heading">
+              <div class="row">
+                <div class="col-xs-8">Login</div>
+              </div>
+            </div>
+            <form id="login-form" action="action">
+              <div>
+                <div class="row" id="registerRow">
+
+                  <div class="col-xs-1"></div>
+                  <div class="col-xs-10">
+                    <div class="form-group">
+                      <label for="email">Email address</label>
+                      <input type="email" class="form-control" id="login-email" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                      <label for="password">Password</label>
+                      <input type="password" class="form-control" id="login-password" placeholder="">
+                    </div>
+
+                    <div class="row" id="submitRow">
+
+                      <div class="col-xs-10"></div>
+                      <div class="col-xs-2">
+                        <button class="btn btn-primary" id="login-button" value="Login" type="submit">Create</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-xs-1"></div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-0 col-md-3"></div>
+  </div>
+</template>
