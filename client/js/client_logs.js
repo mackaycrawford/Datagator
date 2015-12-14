@@ -5,7 +5,7 @@ Template.logs.onRendered(function() {
 
 
     getData = function() {
-      return logs.find().fetch()
+      return logs.find({}, {sort: {'logDate': -1}} ).fetch()
     }
 
 
@@ -16,9 +16,14 @@ Template.logs.onRendered(function() {
       
       data: getData(),
       //data: runHelper('logs', 'logData'),
-      rowHeaders: true,
+      rowHeaders: false,
       colHeaders: true,
-      contextMenu: true
+      contextMenu: false, 
+       columns: [
+          {data: 'message'},
+          {data: 'userId'},
+          {data: 'logDate'},
+    ]
     });
 
     hotInstance = $("#logsTable").handsontable('getInstance');

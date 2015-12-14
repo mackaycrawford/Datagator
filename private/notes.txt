@@ -1,10 +1,10 @@
 
-git clone --origin source https://github.com/sirmartymoose/meteorTempalte.git 
-cd meteorTempalte
+git clone --origin source https://github.com/sirmartymoose/meteorTemplate.git 
+cd meteorTemplate
 git init
 git add .
 git commit -m 'First commit'
-git remote add origin https://github.com/sirmartymoose/meteorQuick.git
+git remote add origin https://github.com/sirmartymoose/NEWLOCATION.git
 git remote -v
 git push -u origin master
 git push origin master
@@ -19,3 +19,7 @@ meteor add robincwillis:handsontable
 meteor add maazalik:highcharts
 meteor add accounts-ui accounts-password
 //meteor remove autopublish
+
+
+Autoform playground: http://autoform.meteor.com/select
+
