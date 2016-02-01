@@ -1,6 +1,6 @@
 Meteor.methods({
   createSheet: function(dataFeedName){
-      sheetDefinitions.insert({authorId: this.userId, sheetName: dataFeedName})
+      return sheetDefinitions.insert({authorId: this.userId, sheetName: dataFeedName})
   }  
     
 })
