@@ -1,10 +1,10 @@
-<template name="testPage">
+<template name="listOwnedSheets">
   <div class="container">
     <div class="row">
       <div class="col-xs-2"></div>
       <div class="col-xs-8">
         <div class="page-header">
-          <h1>Create A New Datafeed</h1>
+          <h1>Your Feeds</h1>
         </div>
       </div>
       <div class="col-xs-2"></div>
@@ -12,17 +12,16 @@
     <div class="row">
       <div class="col-xs-2"></div>
       <div class="col-xs-8">
+        <ul class="list-group">
+          {{# each listSheets}}
+            <li class='list-group-item'>{{sheetName}}</li>
+          {{/ each}}
+        </ul>
 
-
-<form>
-  <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
-    <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Email">
-  </div>
-</form>
       </div>
       <div class="col-xs-2"></div>
 
     </div>
   </div>
 </template>
+
