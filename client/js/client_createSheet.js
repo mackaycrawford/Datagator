@@ -5,7 +5,9 @@ Template.createSheet.onRendered(function() {
   createSheet = function(sheetName) {
     Meteor.call("createSheet", sheetName, function(err, res) {
       sheetId = res
-      Session.set("sheetId", sheetId)
+      if (connectorType === "paste") {
+        connector_paste(res)
+      }
     })
   }
 
@@ -34,10 +36,6 @@ Template.createSheet.onRendered(function() {
       x.preventDefault()
       dfName = $("#dataFeedName").val()
       createSheet(dfName)
-      if (connectorType === "paste") {
-        connector_paste(Session.get("sheetId"))
-      }
-
     })
 
 

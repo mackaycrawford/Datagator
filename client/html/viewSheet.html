@@ -1,0 +1,31 @@
+<template name="viewSheet">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-2"></div>
+      <div class="col-xs-8">
+        <div class="page-header">
+          <h1>ViewSHeet</h1>
+          <a href='#' onclick='downloadCSV({ filename: "stock-data.csv" });'>Download CSV</a>
+        </div>
+      </div>
+      <div class="col-xs-2"></div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2"></div>
+      <div class="col-xs-8">
+    <div class="row" id="dataResults">
+      <div class="col-xs-2"></div>
+      <div class="col-xs-8">
+          <div id="example1" class="hot handsontable htRowHeaders htColumnHeaders"></div>
+          
+      </div>
+      <div class="col-xs-2"></div>
+    </div>
+
+
+      </div>
+      <div class="col-xs-2"></div>
+
+    </div>
+  </div>
+</template>
