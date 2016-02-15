@@ -15,7 +15,9 @@ sqlToObj = function(sql) {
   // check to see if the second field is "*"
   // If yes, then get the fields from the reference and add to the object
   if (sql.split(" ")[1] === "*") {
-    outObj['fields'] = _.keys($container.handsontable('getData')[0])
+    outObj['fields'] = _.keys(sheetData.find({sheetId:queryString()['sheetId']},{fields: {_id: 0, sheetId: 0, authorId:0}}).fetch()[0])
+    //outObj['fields'] = 1
+
   }
   // If no do the following: 
   // Find the "From" keyword position
@@ -47,8 +49,10 @@ sqlToObj = function(sql) {
         ws = whereSub.split("=")
         ws[0] = ws[0].trim()
         ws[0] = ws[0].replace(/'/g, "")
+        ws[0] = ws[0].replace(/"/g, "")
         ws[1] = ws[1].trim()
         ws[1] = ws[1].replace(/'/g, "")
+        ws[1] = ws[1].replace(/"/g, "")
         outObj['where'][ws[0]] = ws[1]
       }
     }
@@ -59,7 +63,12 @@ sqlToObj = function(sql) {
 
 objToUnderscore = function(sqlObj) {
   d = $container.handsontable('getData')
+  cLog("here is sqlobjwhere")
+  cLog(sqlObj['where'])
+  resText = "_.where(" + d + "," + sqlObj['where'] + ")"
+  cLog(resText)
   res = _.where(d, sqlObj['where'])
+  cLog(res)
   outAr = []
   for (var i = 0; i < res.length; i++) {
     f = _.pick(res[i], sqlObj['fields'])
@@ -68,3 +77,75 @@ objToUnderscore = function(sqlObj) {
   return outAr
 }
 //objToUnderscore(sqlToObj(t1))
+
+
+objToMongo = function(sqlObj){
+  // type: "Select"
+  // fields: ['firstname', 'lastname']
+  // where: "{name: Dave}"
+  mongoFields = {_id: 0}
+  whereConditions= sqlObj['where']
+  
+  if(sqlObj['fields'] != 1){
+  for(var i=0; i<sqlObj['fields'].length; i++){
+    var keyName = sqlObj['fields'][i]
+    mongoFields[keyName] = 1
+  }
+  } 
+  
+  cLog("whereConditions coming next:")
+  cLog(whereConditions)
+  cLog("Fields coming next:")
+  cLog(mongoFields)
+  
+  returnData = sheetData.find(whereConditions,{fields: mongoFields}).fetch()
+  return returnData
+  
+  
+}
+
+orderGridColumns = function(sqlObj, gridData){
+  outputArr = []
+  fieldArray = sqlObj['fields']
+  
+  
+  for(var g=0; g<gridData.length; g++){
+    lineObject = {}
+    for(var f = 0 ; f<fieldArray.length; f++){
+      res = gridData[g][fieldArray[f]]
+      //cLog("PLUCKED")
+      //cLog(res)
+      lineObject[fieldArray[f]] = res
+    }
+    outputArr.push(lineObject)
+  }
+  return outputArr
+}
+
+
+Template.viewSheet.onRendered(function() {
+  $(document).ready(function(){
+      
+      $("#runSql").click(function(){
+          getVal = $("#sqlText").val()
+          cLog("getVal:")
+          cLog(getVal)
+          cLog("sqlToObj output:")
+          sqlObjectOutput = sqlToObj(getVal)
+          cLog(sqlObjectOutput)
+          cLog("objToUnderscore:")
+          
+          newGrid = objToMongo(sqlObjectOutput)
+          //newGrid = objToUnderscore(sqlObjectOutput)
+          
+          cLog(newGrid)
+          newGrid = orderGridColumns(sqlObjectOutput, newGrid)
+          
+          renderGrid(newGrid)
+          
+      })
+      
+  })  
+    
+    
+})

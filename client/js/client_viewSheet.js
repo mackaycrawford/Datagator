@@ -1,5 +1,25 @@
 Template.viewSheet.onRendered(function() {
 
+renderGrid = function(gridData){
+      $container = $("#example1");
+      $container.handsontable({
+        data: gridData,
+        rowHeaders: false,
+        colHeaders: _.keys(gridData[0]),
+        contextMenu: false,
+        minSpareRows: 0,
+        minSpareCols: 0,
+        startRows: 0,
+        startCols: 0, 
+        readOnly: true,
+        stretchH: "all"
+      });
+
+      // This way, you can access Handsontable api methods by passing their names as an argument, e.g.:
+      var hotInstance = $("#example1").handsontable('getInstance');
+      $container.handsontable("getData")
+}
+
    convertArrayOfObjectsToCSV = function(args) {
         var result, ctr, keys, columnDelimiter, lineDelimiter, data;
 
@@ -60,24 +80,9 @@ Template.viewSheet.onRendered(function() {
         Meteor.call('getSheetData', queryString()['sheetId'], function(err,res){
           cLog(err)
           cLog(res)
+          renderGrid(res)
 
-      $container = $("#example1");
-      $container.handsontable({
-        data: res,
-        rowHeaders: false,
-        colHeaders: _.keys(res[0]),
-        contextMenu: false,
-        minSpareRows: 0,
-        minSpareCols: 0,
-        startRows: 0,
-        startCols: 0, 
-        readOnly: true,
-        stretchH: "all"
-      });
 
-      // This way, you can access Handsontable api methods by passing their names as an argument, e.g.:
-      var hotInstance = $("#example1").handsontable('getInstance');
-      $container.handsontable("getData")
       })
         
         
