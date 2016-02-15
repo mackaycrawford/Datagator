@@ -1,4 +1,21 @@
 Template.viewSheet.onRendered(function() {
+    
+showSheetName = function(){
+    sId = queryString()['sheetId']
+    sheetName = sheetDefinitions.find({'_id': sId}).fetch()[0]['sheetName']
+    $("#sheetNameText").html(sheetName)
+}
+
+deleteSheet = function(){
+    Meteor.call('deleteSheet', queryString()['sheetId'], function(err,res){
+        Router.go("listOwnedSheets")
+    } )
+}
+
+showNoResults = function(){
+    $("#noResults").show()
+}
+
 
 renderGrid = function(gridData){
       $container = $("#example1");
@@ -76,12 +93,12 @@ renderGrid = function(gridData){
   
   console.log("template rendered")
   $(document).ready(function() {
-        
+$("#noResults").hide()
         Meteor.call('getSheetData', queryString()['sheetId'], function(err,res){
           cLog(err)
           cLog(res)
           renderGrid(res)
-
+        showSheetName()
 
       })
         
@@ -89,7 +106,9 @@ renderGrid = function(gridData){
         
 
 
-
+$("#deleteSheet").click(function(){
+    deleteSheet()
+})
         
         
         

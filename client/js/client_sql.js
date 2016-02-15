@@ -6,7 +6,7 @@ sqlToObj = function(sql) {
   outObj = {
     type: null,
     fields: null,
-    where: {}
+    where: {sheetId: queryString()['sheetId']}
   }
   // if the first word is select this should be a type of 'select'
   if (sql.split(" ")[0].toLowerCase() === "select") {
@@ -136,12 +136,19 @@ Template.viewSheet.onRendered(function() {
           cLog("objToUnderscore:")
           
           newGrid = objToMongo(sqlObjectOutput)
+          if(newGrid.length == 0){
+            showNoResults()
+          } else {
+              newGrid = orderGridColumns(sqlObjectOutput, newGrid)
+              cLog(newGrid)
+              renderGrid(newGrid)
+              $("#noResults").hide()
+          }
+          
           //newGrid = objToUnderscore(sqlObjectOutput)
           
-          cLog(newGrid)
-          newGrid = orderGridColumns(sqlObjectOutput, newGrid)
           
-          renderGrid(newGrid)
+
           
       })
       

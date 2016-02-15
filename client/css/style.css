@@ -1,1 +1,20 @@
 /* CSS declarations go here */
+#controlsRow {
+    margin-bottom: 20px;
+}
+
+#sheetNameText{
+    position: relative; 
+    top: 5px; 
+    font-size: 1.3em;
+}
+
+#downloadLink{
+    position: relative; 
+
+}
+
+#deleteSheet{
+    position: relative; 
+
+}
