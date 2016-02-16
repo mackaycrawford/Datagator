@@ -22,3 +22,6 @@ iron:router
 robincwillis:handsontable
 accounts-ui
 accounts-password
+tomi:upload-server
+tomi:upload-jquery
+netanelgilad:excel
