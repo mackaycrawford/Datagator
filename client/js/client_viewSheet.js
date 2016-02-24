@@ -14,8 +14,13 @@ deleteSheet = function(){
 
 showNoResults = function(){
     $("#noResults").show()
+    $("#example1").hide()
 }
 
+showResults = function(){
+    $("#noResults").hide()
+    $("#example1").show()
+}
 
 renderGrid = function(gridData){
       $container = $("#example1");
@@ -93,6 +98,14 @@ renderGrid = function(gridData){
   
   console.log("template rendered")
   $(document).ready(function() {
+    $("#sqlText").keypress(function(e) {
+    if(e.which == 13) {
+        $("#runSql").click();
+    }
+});
+
+      
+      
 $("#noResults").hide()
         Meteor.call('getSheetData', queryString()['sheetId'], function(err,res){
           cLog(err)

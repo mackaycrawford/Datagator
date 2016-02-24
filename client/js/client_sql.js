@@ -6,7 +6,8 @@ sqlToObj = function(sql) {
   outObj = {
     type: null,
     fields: null,
-    where: {sheetId: queryString()['sheetId']}
+    where: {sheetId: queryString()['sheetId']},
+    like: {}
   }
   // if the first word is select this should be a type of 'select'
   if (sql.split(" ")[0].toLowerCase() === "select") {
@@ -37,7 +38,7 @@ sqlToObj = function(sql) {
   // Search for the "where" 
   if (sql.search("where") > 0) {
     whereSub = sql.substring(sql.search("where") + 5, sql.length)
-    console.log(whereSub)
+
       // Search for "and"
     isAnd = whereSub.search("and")
 
@@ -55,9 +56,22 @@ sqlToObj = function(sql) {
         ws[1] = ws[1].replace(/"/g, "")
         outObj['where'][ws[0]] = ws[1]
       }
+      isLike = whereSub.search("like")
+      if(isLike > 0){
+        ws = whereSub.split("like")
+        ws[0] = ws[0].trim()
+        ws[0] = ws[0].replace(/'/g, "")
+        ws[0] = ws[0].replace(/"/g, "")
+        ws[1] = ws[1].trim()
+        ws[1] = ws[1].replace(/'/g, "")
+        ws[1] = ws[1].replace(/"/g, "")
+        //outObj['where'][ws[0]] = "\/" + ws[0] + "\/"
+        outObj['where'][ws[0]] = new RegExp(ws[1],"");
+        //outObj['like'][ws[0]] = \" ws[1] \"
+      }
     }
   }
-  console.log(outObj)
+
   return outObj
 }
 
@@ -93,10 +107,7 @@ objToMongo = function(sqlObj){
   }
   } 
   
-  cLog("whereConditions coming next:")
-  cLog(whereConditions)
-  cLog("Fields coming next:")
-  cLog(mongoFields)
+
   
   returnData = sheetData.find(whereConditions,{fields: mongoFields}).fetch()
   return returnData
@@ -122,27 +133,49 @@ orderGridColumns = function(sqlObj, gridData){
   return outputArr
 }
 
+SQL = function(query){
+  sqlObjectOutput = sqlToObj(query)
+  cLog("query Object Fields:")
+  cLog(sqlObjectOutput['fields'])
+  cLog("query Object Where:")
+  cLog(sqlObjectOutput['where'])
+  cLog("query Object Like:")
+  cLog(sqlObjectOutput['like'])
+  cLog("end query object")
+  result = objToMongo(sqlObjectOutput)
+  cLog("begin result")
+  
+  
+  if(_.isEmpty(result[0])){
+    cLog("No results because there are no columns that match what was specified")
+    return 0
+  }
+  
+  result = orderGridColumns(sqlObjectOutput, result)
+  
+  
+  for(i=0; i<result.length; i++){
+    cLog(result[i])
+
+    
+  }
+  
+  
+  return result
+}
+
 
 Template.viewSheet.onRendered(function() {
   $(document).ready(function(){
       
       $("#runSql").click(function(){
           getVal = $("#sqlText").val()
-          cLog("getVal:")
-          cLog(getVal)
-          cLog("sqlToObj output:")
-          sqlObjectOutput = sqlToObj(getVal)
-          cLog(sqlObjectOutput)
-          cLog("objToUnderscore:")
-          
-          newGrid = objToMongo(sqlObjectOutput)
-          if(newGrid.length == 0){
+          res = SQL(getVal)
+          if(res == 0){
             showNoResults()
           } else {
-              newGrid = orderGridColumns(sqlObjectOutput, newGrid)
-              cLog(newGrid)
-              renderGrid(newGrid)
-              $("#noResults").hide()
+              showResults()
+              renderGrid(res)
           }
           
           //newGrid = objToUnderscore(sqlObjectOutput)
