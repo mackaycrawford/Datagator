@@ -8,6 +8,10 @@ Template.createSheet.onRendered(function() {
       if (connectorType === "paste") {
         connector_paste(res)
       }
+      if (connectorType === "emailMyself") {
+        cLog("connector type is emailMyself")
+        connector_emailMyself(res)
+      }
     })
   }
 
@@ -24,6 +28,17 @@ Template.createSheet.onRendered(function() {
       $("#connector_paste").hide()
       connectorType = null
     }
+    
+    if (connectorSelected === "emailMyself") {
+      $("#connector_emailMyself").show()
+      $("#connector_paste").hide()
+      connectorType = "emailMyself"
+    } else {
+      $("#connector_emailMyself").hide()
+      connectorType = null
+    }
+    
+    
   }
 
 
@@ -31,6 +46,7 @@ Template.createSheet.onRendered(function() {
   $(document).ready(function() {
 
     $("#connector_paste").hide()
+    $("#connector_emailMyself").hide()
 
     $("#createNewDataFeedButton").click(function(x) {
       x.preventDefault()

@@ -1,0 +1,14 @@
+// Create a connect_aaa.html page + template in the HTML folder
+
+// In "CreateSheet.html" add the option value in the dropdown
+
+// in "CreateSheet.html" add the new template to the handlebars
+
+
+// create a "connector_aaa.js in the lib folder with isClient and isServer sections
+
+// configure "loadConnectorTemplate" on client_createSheet.js
+
+// Hide $("#connector_aaa") element on page load on client_createSheet.js
+
+// Modify "createSheet" function in client_createSheet.js
