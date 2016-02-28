@@ -4,7 +4,6 @@
 
 // in "CreateSheet.html" add the new template to the handlebars
 
-
 // create a "connector_aaa.js in the lib folder with isClient and isServer sections
 
 // configure "loadConnectorTemplate" on client_createSheet.js
