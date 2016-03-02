@@ -26,6 +26,26 @@ processExcelJSONtoDB = function(fileJSON, authorId, sheetId, writeType){
             sheetData.insert(fileJSON[i])
         }
     }
+    if(writeType === "overwrite"){
+        sheetData.remove({sheetId: sheetId})
+        for(i=0; i<fileJSON.length; i++){
+            fileJSON[i]['authorId'] = authorId
+            fileJSON[i]['sheetId'] = sheetId
+            sheetData.insert(fileJSON[i])
+        }
+    }
+    if(writeType === 'smartAppend'){
+        existingData = sheetData.find({sheetId: sheetId}).fetch()
+        newData = fileJSON 
+        res = insertOrSkip(existingData, newData)
+        for(i=0; i<res.length; i++){
+            res[i]['authorId'] = authorId
+            res[i]['sheetId'] = sheetId
+            sheetData.insert(fileJSON[i])
+        }
+        
+    }
+    
     
 }
 

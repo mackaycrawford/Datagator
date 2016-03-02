@@ -1,0 +1,31 @@
+<template name="listGroups">
+  <div class="container">
+    <div class="row">
+      <div class="col-xs-2"></div>
+      <div class="col-xs-8">
+        <div class="page-header">
+          <h1>Your Groups</h1>
+        </div>
+      </div>
+      <div class="col-xs-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+      <button class="button btn btn-primary" id='createGroupButton'>Create New</button>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-2"></div>
+      <div class="col-xs-8">
+        <ul class="list-group" id="groupListings">
+          <li class="list-group-item">First item</li>
+  {{#each groups}}
+     <li class="list-group-item"> {{groupName}} </li>
+  {{/each}}
+        </ul>
+      </div>
+      <div class="col-xs-2"></div>
+
+    </div>
+  </div>
+</template>

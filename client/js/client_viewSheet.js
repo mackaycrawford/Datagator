@@ -22,6 +22,18 @@ showResults = function(){
     $("#example1").show()
 }
 
+showAdvanced = function(){
+    $("#advanced").show()
+}
+
+toggleAdvanced = function(){
+    $("#advanced").toggle()
+}
+
+hideShareResults = function(){
+    $("#advanced").hide()
+}
+
 renderGrid = function(gridData){
       $container = $("#example1");
       $container.handsontable({
@@ -103,6 +115,11 @@ renderGrid = function(gridData){
         $("#runSql").click();
     }
 });
+
+
+$("#showAdvancedButton").click(function() {
+    toggleAdvanced()
+})
 
       
       
