@@ -21,8 +21,8 @@ processExcelJSONtoDB = function(fileJSON, authorId, sheetId, writeType){
         for(i=0; i<fileJSON.length; i++){
             fileJSON[i]['authorId'] = authorId
             fileJSON[i]['sheetId'] = sheetId
-            console.log("Inserting Sheet Data!")
-            console.log(fileJSON[i])
+            //console.log("Inserting Sheet Data!")
+            //console.log(fileJSON[i])
             sheetData.insert(fileJSON[i])
         }
     }
