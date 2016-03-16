@@ -18,3 +18,20 @@
     position: relative; 
 
 }
+
+.slightMargin{
+    margin: 15px;
+}
+
+.slightMarginTopBottom{
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
+.slightMarginBottom{
+    margin-bottom: 5px;
+}
+
+#dgNav {
+    margin-bottom: 0px;
+}

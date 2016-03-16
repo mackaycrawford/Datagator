@@ -19,6 +19,7 @@ Template.createSheet.onRendered(function() {
 
   $("#connectorSelect").on("change", function() {
     connectorSelected = $('#connectorSelect').find(":selected").val();
+    console.log(connectorSelected)
     loadConnectorTemplate(connectorSelected)
   })
 

@@ -1,0 +1,85 @@
+<Template name="sheetManagement">
+
+<div class="container-fluid">
+
+	<div class="row">
+		<div class="col-xs-12 slightMarginBottom">
+
+  <h3 id="sheetNameText ">SheetName</h3>
+
+</div>
+</div>
+<div class="row">
+<div class="col-xs-12">
+			<div class="row">
+<div class="container-fluid">
+
+  <ul class="nav nav-tabs">
+    <li class="active authorTab"><a data-toggle="tab" href="#authorImport">Source Settings</a></li>
+    <li class="authorTab"><a data-toggle="tab" href="#authorViewRawData" >Source Data</a></li>
+    <li class="authorTab"><a data-toggle="tab" href="#authorTransform">Exctraction Settings</a></li>
+    <li class="authorTab"><a data-toggle="tab" href="#authorViewTransformedData">Extracted Data</a></li>
+	<li class="authorTab"><a data-toggle="tab" href="#authorShareData">Share Settings</a></li>
+	<li class="authorTab"><a data-toggle="tab" href="#authorViewSharedData">Shared Data</a></li>
+	<!--
+	<li class="editorTab"><a data-toggle="tab" href="#editorViewSharedData">Raw Data</a></li>
+	<li class="editorTab"><a data-toggle="tab" href="#editorTransform">Transform</a></li>
+	<li class="editorTab"><a data-toggle="tab" href="#editorViewTransformedData">View Transformed Data</a></li>
+	<li class="viewerTab"><a data-toggle="tab" href="#viewData">View Data</a></li>
+	-->
+  </ul>
+
+  <div class="tab-content">
+    <div id="authorImport" class="tab-pane fade in active authorTab">
+      <div class="row">
+      {{> import}}
+      </div>
+    </div>
+    <div id="authorViewRawData" class="tab-pane fade">
+      <div class="row">
+{{> authorViewRawData}}
+      </div>
+    </div>
+    <div id="authorTransform" class="tab-pane fade authorTab">
+      <div class="row">
+        <div class="col-xs-2"></div>
+        <div class="col-xs-8">{{> authorTransform}}</div>
+        <div class="col-xs-2"></div>
+      
+      </div>
+    </div>
+    <div id="authorViewTransformedData" class="tab-pane fade authorTab">
+      <div class="row">
+        <div class="col-xs-12">
+      {{> authorViewTransformedData}}
+      </div>
+      </div>
+    </div>
+    <div id="authorShareData" class="tab-pane fade authorTab">
+        {{> authorShareData}}
+    </div>
+    <div id="authorViewSharedData" class="tab-pane fade authorTab">
+      {{> authorViewSharedData}}
+    </div>
+    <!--
+	 <div id="editorViewSharedData" class="tab-pane fade editorTab">
+      <h3>#editorViewSharedData</h3>
+    </div>
+	<div id="editorTransform" class="tab-pane fade editorTab">
+      <h3>#editorTransform</h3>
+    </div>
+	 <div id="editorViewTransformedData" class="tab-pane fade editorTab">
+      <h3>#editorViewTransformedData</h3>
+    </div>
+	<div id="viewData" class="tab-pane fade viewerTab">
+      <h3>#viewData</h3>
+    </div>
+    -->
+  </div>
+</div>
+			</div>
+		</div>
+	</div>
+
+</div>
+</Template>

@@ -13,9 +13,9 @@
       <div class="col-xs-2"></div>
       <div class="col-xs-8">
         <ul class="list-group">
-          {{# each listSheets}}
-            <li class='list-group-item'><a href="viewSheet?sheetId={{_id}}">{{sheetName}}</a></li>
-          {{/ each}}
+          {{#each listSheets}}
+            <li class='list-group-item'><a href="sheetManagement?sheetId={{_id}}">{{sheetName}}</a></li>
+          {{/each}}
         </ul>
 
       </div>

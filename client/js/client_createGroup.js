@@ -12,6 +12,8 @@ Template.createGroup.onRendered(function() {
         gName = $("#groupNameText").val()
         gEmails = $("#groupEmailsText").val()
         gEmails = gEmails.split(",")
+        
+        
         clientCreateGroup(gName, gEmails)
     })
     
