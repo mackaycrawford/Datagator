@@ -1,31 +1,42 @@
 <template name="authorShareData">
-<div class="container" id="groupListContainer">
-  <div id="res"></div>
-  <div class="row">
-
-    <div class="col-xs-4">
-      <div class="form-group">
-        <button type="button" class="btn btn-success" id="saveShareGroups">Save</button>
-      </div>
+    <div class="row slightMarginTopBottom">
+    <div class="col-xs-3"></div>
+    <div class="col-xs-6">
+        <div class="form-group">
+          <button type="button" class="btn btn-success" id="saveShareGroups">Save</button>
+        </div>
     </div>
+    <div class="col-xs-3"></div>
   </div>
 
-  <div class="row newRow">
-    <div class="col-xs-4">
-      <div class="form-group">
-        <select class="form-control shareGroupSelect" id="groupDropDown">
-        </select>
-      </div>
 
-    </div>
-    <div class="col-xs-4">
-      <div class="form-group">
-        <input type="text" class="form-control" id="newRowText">
+  <div class="container" id="groupListContainer">
+    <div id="res"></div>
+
+
+    <div class="row">
+          <div class="col-xs-3"></div>
+          <div class="col-xs-6">
+                <div class="row newRow">
+      <div class="col-xs-6">
+        <div class="form-group">
+          <select class="form-control shareGroupSelect" id="groupDropDown">
+          </select>
+        </div>
+
+      </div>
+      <div class="col-xs-4">
+        <div class="form-group">
+          <input type="text" class="form-control" id="newRowText">
+        </div>
       </div>
     </div>
+          </div>
+          <div class="col-xs-3"></div>
+          </div>
+
+
   </div>
-
-</div>
 
 
 </template>

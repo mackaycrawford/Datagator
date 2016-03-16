@@ -20,7 +20,7 @@
         <ul class="list-group" id="groupListings">
           <li class="list-group-item">First item</li>
   {{#each groups}}
-     <li class="list-group-item"> {{groupName}} </li>
+     <li class="list-group-item"><a href="editGroup?groupId={{_id}}"> {{groupName}} </a></li>
   {{/each}}
         </ul>
       </div>

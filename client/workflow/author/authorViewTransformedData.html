@@ -1,16 +1,21 @@
 <template name="authorViewTransformedData">
-  <div class="row slightMarginTopBottom">
-    <div class="col-xs-2">Transformed Data</div>
+    <div class="row slightMarginTopBottom">
+    <div class="col-xs-3"></div>
     <div class="col-xs-6">
-      <input type="text" class="form-control" id="transformedSqlText" />
-    </div>
-    <div class="col-xs-2">
+      <div class="row">
+        <div class="col-xs-8">
+        <input type="text" class="form-control" id="transformedSqlText" />
+        </div>
+            <div class="col-xs-4">
       <button class="button btn btn-primary" id="runTransformedSql">Run</button>
+              <button class="button btn-success btn" onclick='downloadCSV({ filename: "datagator.csv" });'>Download</button>
+
     </div>
-      <div class="col-xs-2" id="downloadLink">
-        <button class="button btn-success btn" onclick='downloadCSV({ filename: "stock-data.csv" });'>Download</button>
       </div>
+    </div>
+    <div class="col-xs-3"></div>
   </div>
+
   <div class="row">
     <div class="col-xs-12">
   <div id="authorTransformedDataGrid"></div>

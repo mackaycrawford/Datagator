@@ -1,21 +1,28 @@
 <template name="authorTransform">
-    <div class="row">
-        <div class="col-xs-12 slightMargin">
-            <button class="button btn btn-primary" id="saveAuthorTranslationButton">Save</button>
-        </div>
+    <div class="row slightMarginTopBottom">
+    <div class="col-xs-3"></div>
+    <div class="col-xs-6">
+                  <button class="button btn btn-primary" id="saveAuthorTranslationButton">Save</button>
     </div>
+    <div class="col-xs-3"></div>
+  </div>
+
     <div class="row">
+      <div class="col-xs-3"></div>
+            <div class="col-xs-6">
 <div class="form-group">
   <label for="comment">Exclude Column Names "Field1", "Field 2"</label>
-  <textarea class="form-control" rows="5" id="excludeColumnNames"></textarea>
+  <textarea class="form-control" rows="3" id="excludeColumnNames"></textarea>
 </div>
 <div class="form-group">
-  <label for="comment">Translate Column Names ("New" = "Old","Old2", "Old3")</label>
-  <textarea class="form-control" rows="5" id="translateColumnNames"></textarea>
+  <label for="comment">Translate Column Names ("New" = "Old")</label>
+  <textarea class="form-control" rows="3" id="translateColumnNames"></textarea>
 </div>
 <div class="form-group">
   <label for="comment">Translate Field Values ("New" = "Old", "Old2", "Old3")</label>
-  <textarea class="form-control" rows="5" id="translateFieldValues"></textarea>
+  <textarea class="form-control" rows="3" id="translateFieldValues"></textarea>
 </div>
 </div>
+</div>
+<div class="col-xs-3"></div>
 </template>
