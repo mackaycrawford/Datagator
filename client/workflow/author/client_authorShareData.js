@@ -1,80 +1,5 @@
 Template.authorShareData.onRendered(function() {
-stubSheetId = "123"
-
-//groups.update({_id: "LL3D3BubmYTtmssuy",'sheetPermissions.sheetId': "123"}, {$set: {'sheetPermissions.sheetId.$.text': "HI"}},  { upsert: true })
-
-stub = [{
-  "_id": "qdfa",
-  "groupEmails": ["sirmartymoose@gmail.com", "mackaycrawford@gmail.com"],
-  "groupName": "MySecondGrouup",
-  "groupOwner": "sWbBmNYof57xWhhke",
-  "sheetPermissions": [{
-      "sheetId": "123",
-      "sqlObject": {
-        "text": "Select Name from t where sheetId = 123",
-        "type": "select",
-        "fields": ["Name"],
-        "selectAll": false,
-        "isTranslated": true,
-        "where": {
-          "sheetId": "fXzSPimyFbcT9gyec"
-        },
-        "like": {}
-      }
-    }, {
-      "sheetId": "456",
-      "sqlObject": {
-        "text": "Select Name from t sheetID = 456",
-        "type": "select",
-        "fields": ["Name"],
-        "selectAll": false,
-        "isTranslated": true,
-        "where": {
-          "sheetId": "fXzSPimyFbcT9gyec"
-        },
-        "like": {}
-      }
-    }
-
-  ]
-}, {
-  "_id": "qdfa",
-  "groupEmails": ["sirmartymoose@gmail.com", "mackaycrawford@gmail.com"],
-  "groupName": "ANTOTHER",
-  "groupOwner": "sWbBmNYof57xWhhke",
-  "sheetPermissions": [{
-      "sheetId": "123",
-      "sqlObject": {
-        "text": "Select Name from t sjeet2 id = 123",
-        "type": "select",
-        "fields": ["Name"],
-        "selectAll": false,
-        "isTranslated": true,
-        "where": {
-          "sheetId": "fXzSPimyFbcT9gyec"
-        },
-        "like": {}
-      }
-    }, {
-      "sheetId": "456",
-      "sqlObject": {
-        "text": "Select Name from t2 sheet2 = 456",
-        "type": "select",
-        "fields": ["Name"],
-        "selectAll": false,
-        "isTranslated": true,
-        "where": {
-          "sheetId": "fXzSPimyFbcT9gyec"
-        },
-        "like": {}
-      }
-    }
-
-  ]
-}]
-
 displayGroupDropdownValues = function(stub) {
-
   for (var i = 0; i < stub.length; i++) {
     gName = stub[i]['groupName']
     str = "<option value='" + stub[i]['_id'] + "'> " + gName + " </option>"
@@ -83,7 +8,7 @@ displayGroupDropdownValues = function(stub) {
 }
 
 templateDisplayGroupSQL = function(groupId, groupName, sqlText) {
-  t = "<div class='row shareRow'><div class='col-xs-4'><div class='form-group'><input type='text' class='form-control' id='gName' readonly value='" + groupName + "'></div></div><div class='col-xs-4'><div class='form-group'><input type='text' class='form-control' id='sqlText' value='" + sqlText + "'></div></div><input type='hidden' id='gId' value='" + groupId + "' ><div class='col-xs-1'><div class='form-group'><button type='button' class='btn btn-danger'>Delete</button></div></div></div>"
+  t = "<div class='row shareRow' id='"+groupId+"'><div class='col-xs-2'></div><div class='col-xs-3'><div class='form-group'><input type='text' class='form-control' id='gName' readonly value='" + groupName + "'></div></div><div class='col-xs-3'><div class='form-group'><input type='text' class='form-control' id='sqlText' value='" + sqlText + "'></div></div><input type='hidden' id='gId' value='" + groupId + "' ><div class='col-xs-2'><div class='form-group'><!--<button type='button' class='btn btn-danger'>Delete</button>--><button type='button' class='btn btn-default updateShareButton'>Save </button></div></div></div>"
   $("#groupListContainer").append(t)
 }
 
@@ -92,8 +17,36 @@ renderShareGroups = function(stub, sheetId) {
   for (var z = 0; z < workingArray.length; z++) {
     templateDisplayGroupSQL(workingArray[z]['groupId'], workingArray[z]["groupName"], workingArray[z]["sql"])
   }
-
+ $(".updateShareButton").on('click', function(){
+    d = $(this).parent().parent().parent()
+    d_id = $(d).attr('id')
+    console.log(d_id)
+    q = $("#" + d_id).find("#sqlText").val()
+    console.log(q)
+    Meteor.call('upsertGroupPermissions', d_id, queryString()['sheetId'], sqlToObj(q))
+  })
 }
+
+renderPublicGroup = function(sheetId){
+  Meteor.call('getPublicShareSettings', queryString()['sheetId'], function(err,res){
+    console.log(err)
+    console.log(res)
+    if(res['publicAcessType'] === "noAccess"){
+      $("#publicAccessSelect").val("noAccess")
+      $("#publicQuery").hide()
+    }
+    if(res['publicAcessType'] === "allAccess"){
+      $("#publicAccessSelect").val("allAccess")
+      $("#publicQuery").hide()
+    }
+    if(res['publicAcessType'] === "accessByQuery"){
+      $("#publicAccessSelect").val("accessByQuery")
+      $("#publicQuery").show()
+      $("#publicQueryText").val(res['sql'])
+    }
+  })
+}
+
 
 filterStubsToRelevantSheets = function(stub, sheetId) {
   matchingStubArray = []
@@ -111,8 +64,6 @@ filterStubsToRelevantSheets = function(stub, sheetId) {
         miniObj['sql'] = sPerms[b]['sqlObject']['text']
         matchingStubArray.push(miniObj)
         }
-        
-
       }
     }
   }
@@ -123,6 +74,7 @@ filterStubsToRelevantSheets = function(stub, sheetId) {
 renderShareGroupsInterface = function(stub, sheetId) {
   displayGroupDropdownValues(stub)
   renderShareGroups(stub, sheetId)
+  renderPublicGroup(sheetId)
 }
 
 getShareGroupsInput = function() {
@@ -151,15 +103,40 @@ getShareGroupsInput = function() {
   return outArray
 }
 
+
+getNewGroupInput = function(){
+    nrt = $("#newRowText").val()
+  if (nrt.length > 0) {
+    miniObj = {}
+    gdd = $("#groupDropDown").val()
+    gddname = $("#groupDropDown option:selected").text();
+    miniObj['groupId'] = gdd
+    miniObj['groupName'] = gddname
+    miniObj['sql'] = nrt
+    return miniObj
+  }
+  
+  
+}
+
 $(document).ready(function() {
   //renderShareGroupsInterface(stub, stubSheetId)
-
+  $("#publicQuery").hide()
   Meteor.call('server_getShareGroups', queryString()['sheetId'], function(err,res){
     console.log("CALLED")
     console.log(res)
     
     if(typeof(res) != 'undefined'){
       renderShareGroupsInterface(res, queryString()['sheetId'])
+    }
+  })
+  
+  $("#publicAccessSelect").on('change', function(){
+    cv = $("#publicAccessSelect").val()
+    if(cv === "accessByQuery"){
+      $("#publicQuery").show()
+    } else {
+      $("#publicQuery").hide()
     }
   })
 
@@ -173,9 +150,33 @@ $(document).ready(function() {
       so = sqlToObj(t[x]['sql'], true)
       objToUpdate['sqlObject'] = so
       Meteor.call('upsertGroupPermissions', gid, queryString()['sheetId'], objToUpdate)
-      
+      ai("ShareGroup updated")
     }
   })
+
+  $("#publicQuerySave").click(function(){
+    s = queryString()['sheetId']
+    access = $("#publicAccessSelect").val()
+    
+    if(access === "accessByQuery"){
+      accessQuery = $("#publicQueryText").val()
+      Meteor.call("savePublicQuery", s, access, sqlToObj(accessQuery))
+    } else {
+      Meteor.call("savePublicQuery", s, access)
+    }
+  })
+  
+  $("#newQuerySave").click(function(){
+    console.log('clicked')
+    d = getNewGroupInput()
+    sqlObj = sqlToObj(d['sql'], true)
+    Meteor.call("upsertGroupPermissions", d['groupId'], queryString()['sheetId'], sqlObj)
+    templateDisplayGroupSQL(d['groupId'], d['groupName'], d['sql'])
+    $("#newRowText").val("")
+    
+  })
+  
+
 
 })
 })

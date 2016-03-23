@@ -133,6 +133,26 @@ Meteor.methods({
       }
     })
   },
+  
+  getSheetName: function(sheetId){
+    var res = sheetDefinitions.find({_id: sheetId}).fetch()
+    res = res[0]
+    console.log(res['sheetName'])
+    return res['sheetName']
+  },
+  
+  updateSheetName: function(sheetId, sheetName){
+    sheetDefinitions.update({_id: sheetId}, {$set: {sheetName: sheetName}})
+    return sheetName
+  },
+  
+  deleteEntireSheet: function(sheetId){
+    u = this.userId
+    sheetDefinitions.remove({_id: sheetId, authorId: u})
+    sheetData.remove({sheetId: sheetId, authorId: u})
+    return true
+    
+  },
 
   getAuthorTransformations: function(sheetId) {
     return sheetDefinitions.find({
@@ -147,9 +167,12 @@ Meteor.methods({
   upsertGroupPermissions: function(groupId, sheetId, sqlObj){
      t= groups.find({_id: groupId,'sheetPermissions.sheetId': sheetId}).fetch()
      if(t.length > 0){
-        groups.update({_id: groupId,'sheetPermissions.sheetId': sheetId}, {$set: {'sheetPermissions.$': sqlObj}},  { upsert: true })
+        groups.update({_id: groupId,'sheetPermissions.sheetId': sheetId}, {$set: {'sheetPermissions.$.sqlObject': sqlObj}},  { upsert: true })
      } else {
-       groups.update({_id: groupId}, {$push: {'sheetPermissions': sqlObj}}, { upsert: true })
+       objectToPush = {}
+       objectToPush['sheetId'] = sheetId 
+       objectToPush['sqlObject'] = sqlObj
+       groups.update({_id: groupId}, {$push: {'sheetPermissions': objectToPush}}, { upsert: true })
      }
   },
   
@@ -169,6 +192,52 @@ Meteor.methods({
     console.log(gInfoZero)
     returnData = server_fetchAndTransform(sheetId, gInfoZero)
     return returnData
+  }, 
+  savePublicQuery: function(sheetId, accessType, accessQuery = null){
+    
+    if(accessType === "noAccess"){
+      sql = null
+    }
+    if(accessType === "allAccess"){
+      sql = null
+    }
+    if(accessType === "accessByQuery"){
+      sql = accessQuery
+    }
+    if(accessQuery == null){
+      sheetDefinitions.update({_id: sheetId},{$set: {publicAcessType: accessType, publicAccessQuery: sql}})
+    } else {
+      sheetDefinitions.update({_id: sheetId},{$set: {publicAcessType: accessType, publicAccessQuery: sql}})
+
+    }
+  }, 
+  
+  getPublicShareSettings: function(sheetId){
+    returnObject = {}
+    
+    r = sheetDefinitions.findOne({_id: sheetId})
+    console.log(r)
+    
+    if(r['publicAcessType'] === "noAccess"){
+      returnObject['publicAcessType'] = "noAccess"  
+    }
+    if(r['publicAcessType'] === "allAccess"){
+      returnObject['publicAcessType'] = "allAccess"
+    }
+    if(r['publicAcessType'] === "accessByQuery"){
+      returnObject['publicAcessType'] = "accessByQuery"
+          if(typeof(r['publicAccessQuery']) != 'undefined'){
+           if(typeof(r['publicAccessQuery']['text']) != 'undefined'){
+            if(r['publicAccessQuery']['text'].length > 0){
+              returnObject['sql'] = r['publicAccessQuery']['text'] 
+          
+        }
+      }
+    }
+      
+    }
+    return returnObject
+
   }
   
 

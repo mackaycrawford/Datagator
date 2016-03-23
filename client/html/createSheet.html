@@ -14,21 +14,22 @@
       <div class="col-xs-8">
         <form>
           <div class="form-group">
+            <button type="submit" class="btn btn-primary" id="createNewDataFeedButton">Create</button>
+          </div>
+          <div class="form-group">
             <label for="exampleInputEmail1">Datafeed Name</label>
             <input type="text" class="form-control" id="dataFeedName" placeholder="Name of Datafeed">
           </div>
-          <div class="form-group">
-               <button type="submit" class="btn btn-primary" id="createNewDataFeedButton">Create</button>
-          </div>
+
         </form>
       </div>
       <div class="col-xs-2"></div>
 
     </div>
-        <div class="row">
+    <div class="row">
       <div class="col-xs-2"></div>
       <div class="col-xs-8">
-        
+
         <div class="form-group">
           <label for="sel1">Select list:</label>
           <select class="form-control" id="connectorSelect">
@@ -42,9 +43,17 @@
       <div class="col-xs-2"></div>
 
     </div>
-    
-    {{> connector_paste}}
-    {{> connector_emailMyself}}
+    <div class="row slightMarginTopBottom">
+      <div class="col-xs-2"></div>
+      <div class="col-xs-8">
+
+        <div class="well" id="connectorDescription">Select a data connector to import data</div>
+
+      </div>
+      <div class="col-xs-2"></div>
+
+    </div>
+    {{> connector_paste}} {{> connector_emailMyself}}
 
   </div>
 </template>

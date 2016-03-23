@@ -18,7 +18,7 @@ Template.authorViewSharedData.onRendered(function() {
           }
         
       })
-      
+       ai("getSharedData called")
     })
     
     

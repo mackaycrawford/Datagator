@@ -1,4 +1,17 @@
 Template.authorViewTransformedData.onRendered(function() {
+  
+      Meteor.call("authorFetchTransformedData", queryString()['sheetId'],function(err, res) {
+          console.log(err)
+          console.log(res)
+          if(typeof(res) != 'undefined'){
+            $("#authorTransformedDataGrid").show()
+            sm_renderGrid("#authorTransformedDataGrid", res)
+          } else {
+            $("#authorTransformedDataGrid").hide()
+          }
+        })
+  
+  
   $(document).ready(function() {
     $("#runTransformedSql").click(function() {
       qry = $("#transformedSqlText").val()
@@ -27,6 +40,7 @@ Template.authorViewTransformedData.onRendered(function() {
         })
         
       }
+       ai("Run transformed sql clicked")
     })
 
   })

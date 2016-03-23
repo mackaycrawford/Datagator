@@ -1,19 +1,22 @@
 Template.createSheet.onRendered(function() {
   sheetId = ""
   connectorType = ""
+  
+  populateConnectorDescription = function(txt){
+    $("#connectorDescription").html(txt)    
+  }
 
   createSheet = function(sheetName) {
-    cLog("CREATESHETCALLSED")
     Meteor.call("createSheet", sheetName, function(err, res) {
       sheetId = res
       if (connectorType === "paste") {
-        cLog("connector type is paste")
         connector_paste(res)
       }
       if (connectorType === "emailMyself") {
-        cLog("connector type is emailMyself")
         connector_emailMyself(res)
       }
+      
+      Router.go("/sheetManagement?sheetId=" + res)
     })
   }
 
@@ -26,6 +29,7 @@ Template.createSheet.onRendered(function() {
   loadConnectorTemplate = function(connectorSelected) {
     if (connectorSelected === "paste") {
       $("#connector_paste").show()
+      populateConnectorDescription("Paste data directly into the grid")
       connectorType = "paste"
     } else {
       $("#connector_paste").hide()
@@ -34,6 +38,8 @@ Template.createSheet.onRendered(function() {
     
     if (connectorSelected === "emailMyself") {
       $("#connector_emailMyself").show()
+      populateConnectorDescription("Email yourself data")
+
       $("#connector_paste").hide()
       connectorType = "emailMyself"
     } else {
@@ -52,10 +58,10 @@ Template.createSheet.onRendered(function() {
     $("#connector_emailMyself").hide()
 
     $("#createNewDataFeedButton").click(function(x) {
-      cLog("CreateNewDataFeedButton Clicked")
       x.preventDefault()
       dfName = $("#dataFeedName").val()
       createSheet(dfName)
+      ai("Sheet Created")
     })
 
 

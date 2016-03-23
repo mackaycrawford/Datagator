@@ -13,6 +13,6 @@ showSheetName = function(){
 
 Template.listOwnedSheets.helpers({
   listSheets: function(){
-    return sheetDefinitions.find()
+    return sheetDefinitions.find({authorId: Meteor.userId()})
   }
 })

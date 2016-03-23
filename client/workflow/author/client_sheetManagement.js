@@ -73,6 +73,7 @@ Template.sheetManagement.onRendered(function() {
         link.setAttribute('href', data);
         link.setAttribute('download', filename);
         link.click();
+         ai("csv downloaded")
     }
   
   
@@ -93,14 +94,19 @@ Template.sheetManagement.onRendered(function() {
 
     //sId = queryString()['sheetId']
 
-showSheetName = function(){
-    sheetName = sheetDefinitions.find({'_id': sId}).fetch()[0]['sheetName']
+showSheetName = function(sheetName){
     $("#sheetNameText").html(sheetName)
+    $("#sheetNameTextInput").val(sheetName)
 }
  
  
   $(document).ready(function() {
     //showSheetName()
+    Meteor.call('getSheetName', queryString()['sheetId'], function(err,res){
+        if(typeof(res) != 'undefined'){
+            showSheetName(res)
+        }
+    })
 
 
   })

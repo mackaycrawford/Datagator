@@ -15,6 +15,7 @@ Template.createGroup.onRendered(function() {
         
         
         clientCreateGroup(gName, gEmails)
+        ai("Group Created")
     })
     
   })

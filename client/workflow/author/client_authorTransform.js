@@ -154,6 +154,7 @@ createTransformObj = function(){
     $("#saveAuthorTranslationButton").click(function(){
         o = createTransformObj()
         client_insertAuthorauthorTransformations(o)
+         ai("authorTransformations saved")
         
     })
 
