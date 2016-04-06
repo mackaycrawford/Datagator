@@ -12,6 +12,9 @@ Template.createSheet.onRendered(function() {
       if (connectorType === "paste") {
         connector_paste(res)
       }
+      if (connectorType === "upload") {
+        connector_upload(res)
+      }
       if (connectorType === "emailMyself") {
         connector_emailMyself(res)
       }
@@ -47,6 +50,15 @@ Template.createSheet.onRendered(function() {
       //connectorType = null
     }
     
+    if (connectorSelected === "upload") {
+      $("#connector_upload").show()
+      populateConnectorDescription("upload data")
+      connectorType = "upload"
+    } else {
+       $("#connector_upload").hide()
+
+    }
+    
     
   }
 
@@ -56,6 +68,7 @@ Template.createSheet.onRendered(function() {
 
     $("#connector_paste").hide()
     $("#connector_emailMyself").hide()
+    $("#connector_upload").hide()
 
     $("#createNewDataFeedButton").click(function(x) {
       x.preventDefault()

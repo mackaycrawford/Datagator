@@ -1,5 +1,4 @@
 server_fetchAndTransform = function(sheetId, sObj) {
-  console.log(sObj)
   sheetDef = sheetDefinitions.find({
     _id: sheetId
   }).fetch()
@@ -9,20 +8,15 @@ server_fetchAndTransform = function(sheetId, sObj) {
   tfv = sd1['authorTransformations']['translateFieldValues'];
 
   if (sObj == null) {
-    console.log("NULL SQL OBJ")
     sheetD = sheetData.find({
       sheetId: sheetId
     }).fetch()
   }
 
   if (sObj != null) {
-    console.log("begin sObj before")
-    console.log(sObj)
-    console.log("end sobj before")
-    
     whereKeys = _.keys(sObj['where'])
     for (var w = 0; w < whereKeys.length; w++) {
-       if(tcn != null){
+      if (tcn != null) {
         for (t = 0; t < tcn.length; t++) {
           var newValue = tcn[t]['newValue']
           var oldValueArray = tcn[t]['oldValues'].split(",")
@@ -32,7 +26,7 @@ server_fetchAndTransform = function(sheetId, sObj) {
             delete sObj['where'][whereKeys[w]]
           }
         }
-    }
+      }
     }
 
     if (sObj['selectAll'] == true) {
@@ -49,7 +43,7 @@ server_fetchAndTransform = function(sheetId, sObj) {
     }
     if (sObj['fields'] != null) {
       for (ff = 0; ff < sObj['fields'].length; ff++) {
-        if(tcn != null){
+        if (tcn != null) {
           for (var x = 0; x < tcn.length; x++) {
             var newValue = tcn[x]['newValue']
             var oldValueArray = tcn[x]['oldValues'].split(",")
@@ -59,12 +53,9 @@ server_fetchAndTransform = function(sheetId, sObj) {
               sObj['fields'][ff] = ov
             } else {}
           }
-      }
+        }
       }
     }
-    console.log("begin sObj after")
-    console.log(sObj)
-    console.log("end sobj After")
 
     mongoFields = {
       _id: 0
@@ -119,10 +110,6 @@ server_fetchAndTransform = function(sheetId, sObj) {
   return sheetD
 }
 
-
-
-
-
 Meteor.methods({
   insertAuthorTransformations: function(sheetId, transformationObject) {
     sheetDefinitions.update({
@@ -133,25 +120,38 @@ Meteor.methods({
       }
     })
   },
-  
-  getSheetName: function(sheetId){
-    var res = sheetDefinitions.find({_id: sheetId}).fetch()
+
+  getSheetName: function(sheetId) {
+    var res = sheetDefinitions.find({
+      _id: sheetId
+    }).fetch()
     res = res[0]
-    console.log(res['sheetName'])
     return res['sheetName']
   },
-  
-  updateSheetName: function(sheetId, sheetName){
-    sheetDefinitions.update({_id: sheetId}, {$set: {sheetName: sheetName}})
+
+  updateSheetName: function(sheetId, sheetName) {
+    sheetDefinitions.update({
+      _id: sheetId
+    }, {
+      $set: {
+        sheetName: sheetName
+      }
+    })
     return sheetName
   },
-  
-  deleteEntireSheet: function(sheetId){
+
+  deleteEntireSheet: function(sheetId) {
     u = this.userId
-    sheetDefinitions.remove({_id: sheetId, authorId: u})
-    sheetData.remove({sheetId: sheetId, authorId: u})
+    sheetDefinitions.remove({
+      _id: sheetId,
+      authorId: u
+    })
+    sheetData.remove({
+      sheetId: sheetId,
+      authorId: u
+    })
     return true
-    
+
   },
 
   getAuthorTransformations: function(sheetId) {
@@ -162,84 +162,122 @@ Meteor.methods({
 
   authorFetchTransformedData: function(sheetId, sObj = null) {
     return server_fetchAndTransform(sheetId, sObj)
-  }, 
-  
-  upsertGroupPermissions: function(groupId, sheetId, sqlObj){
-     t= groups.find({_id: groupId,'sheetPermissions.sheetId': sheetId}).fetch()
-     if(t.length > 0){
-        groups.update({_id: groupId,'sheetPermissions.sheetId': sheetId}, {$set: {'sheetPermissions.$.sqlObject': sqlObj}},  { upsert: true })
-     } else {
-       objectToPush = {}
-       objectToPush['sheetId'] = sheetId 
-       objectToPush['sqlObject'] = sqlObj
-       groups.update({_id: groupId}, {$push: {'sheetPermissions': objectToPush}}, { upsert: true })
-     }
   },
-  
-    server_getShareGroups: function(sheetId){
-      //return groups.find({'sheetPermissions.sheetId': sheetId}).fetch()
-      return groups.find().fetch()
-  }, 
-  
-  getSharedData(groupId, sheetId){
-    console.log("CALLED")
-    gInfo = groups.find({_id: groupId, 'sheetPermissions.sheetId': sheetId}).fetch()
-    console.log("Ginfo next")
-    console.log(gInfo)
-    console.log("GinfoZer0 next")
-    console.log(gInfo[0]['sheetPermissions'][0]['sqlObject'])
+
+  upsertGroupPermissions: function(groupId, sheetId, sqlObj) {
+    t = groups.find({
+      _id: groupId,
+      'sheetPermissions.sheetId': sheetId
+    }).fetch()
+    if (t.length > 0) {
+      groups.update({
+        _id: groupId,
+        'sheetPermissions.sheetId': sheetId
+      }, {
+        $set: {
+          'sheetPermissions.$.sqlObject': sqlObj
+        }
+      }, {
+        upsert: true
+      })
+    } else {
+      objectToPush = {}
+      objectToPush['sheetId'] = sheetId
+      objectToPush['sqlObject'] = sqlObj
+      groups.update({
+        _id: groupId
+      }, {
+        $push: {
+          'sheetPermissions': objectToPush
+        }
+      }, {
+        upsert: true
+      })
+    }
+  },
+
+  server_getUserCreatedShareGroups: function() {
+    data = groups.find({
+      'groupOwner': Meteor.userId()
+    }).fetch()
+    return data
+  },
+
+  server_getShareGroupsBySheetId: function(sheetId) {
+    data = groups.find({
+      'groupOwner': Meteor.userId(),
+      sheetId: sheetId
+    }).fetch()
+    return data
+  },
+
+  getSharedData(groupId, sheetId) {
+    gInfo = groups.find({
+      _id: groupId,
+      'sheetPermissions.sheetId': sheetId
+    }).fetch()
     gInfoZero = gInfo[0]['sheetPermissions'][0]['sqlObject']
-    console.log(gInfoZero)
     returnData = server_fetchAndTransform(sheetId, gInfoZero)
     return returnData
-  }, 
-  savePublicQuery: function(sheetId, accessType, accessQuery = null){
-    
-    if(accessType === "noAccess"){
+  },
+  savePublicQuery: function(sheetId, accessType, accessQuery = null) {
+
+    if (accessType === "noAccess") {
       sql = null
     }
-    if(accessType === "allAccess"){
-      sql = null
-    }
-    if(accessType === "accessByQuery"){
+    if (accessType === "allAccess") {
       sql = accessQuery
     }
-    if(accessQuery == null){
-      sheetDefinitions.update({_id: sheetId},{$set: {publicAcessType: accessType, publicAccessQuery: sql}})
+    if (accessType === "accessByQuery") {
+      sql = accessQuery
+    }
+    if (accessQuery == null) {
+      sheetDefinitions.update({
+        _id: sheetId
+      }, {
+        $set: {
+          publicAccessType: accessType,
+          publicAccessQuery: sql
+        }
+      })
     } else {
-      sheetDefinitions.update({_id: sheetId},{$set: {publicAcessType: accessType, publicAccessQuery: sql}})
+      sheetDefinitions.update({
+        _id: sheetId
+      }, {
+        $set: {
+          publicAccessType: accessType,
+          publicAccessQuery: sql
+        }
+      })
 
     }
-  }, 
-  
-  getPublicShareSettings: function(sheetId){
+  },
+
+  getPublicShareSettings: function(sheetId) {
     returnObject = {}
-    
-    r = sheetDefinitions.findOne({_id: sheetId})
-    console.log(r)
-    
-    if(r['publicAcessType'] === "noAccess"){
-      returnObject['publicAcessType'] = "noAccess"  
+
+    r = sheetDefinitions.findOne({
+      _id: sheetId
+    })
+
+    if (r['publicAcessType'] === "noAccess") {
+      returnObject['publicAcessType'] = "noAccess"
     }
-    if(r['publicAcessType'] === "allAccess"){
+    if (r['publicAcessType'] === "allAccess") {
       returnObject['publicAcessType'] = "allAccess"
     }
-    if(r['publicAcessType'] === "accessByQuery"){
+    if (r['publicAcessType'] === "accessByQuery") {
       returnObject['publicAcessType'] = "accessByQuery"
-          if(typeof(r['publicAccessQuery']) != 'undefined'){
-           if(typeof(r['publicAccessQuery']['text']) != 'undefined'){
-            if(r['publicAccessQuery']['text'].length > 0){
-              returnObject['sql'] = r['publicAccessQuery']['text'] 
-          
+      if (typeof(r['publicAccessQuery']) != 'undefined') {
+        if (typeof(r['publicAccessQuery']['text']) != 'undefined') {
+          if (r['publicAccessQuery']['text'].length > 0) {
+            returnObject['sql'] = r['publicAccessQuery']['text']
+
+          }
         }
       }
-    }
-      
+
     }
     return returnObject
-
   }
-  
-
-
 })

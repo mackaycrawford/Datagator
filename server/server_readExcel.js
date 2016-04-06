@@ -15,6 +15,18 @@ processEmailedExcelToJSON = function(filename){
     return workbookJson
 }
 
+processUploadedExcelToJSON = function(filename){
+    var basepath = path.resolve('.').split('.meteor')[0];
+    var excel = new Excel('xlsx');
+    var workbook = excel.readFile( basepath+'.uploads/' + filename); 
+    yourSheetsName = workbook.SheetNames;
+    sheetOne = yourSheetsName[0]
+    var sheet = workbook.Sheets[sheetOne]
+    var options = {}
+    var workbookJson = excel.utils.sheet_to_json( sheet, options );
+    return workbookJson
+}
+
 
 processExcelJSONtoDB = function(fileJSON, authorId, sheetId, writeType){
     if(writeType === "append"){
@@ -51,8 +63,15 @@ processExcelJSONtoDB = function(fileJSON, authorId, sheetId, writeType){
 
 //processEmailedExcel('56cf0c6acd055381088b4570.xlsx')
 
-processExcel = function(filename, authorId, sheetId, writeType){
-    js = processEmailedExcelToJSON(filename)
+processExcel = function(filename, authorId, sheetId, inputType, writeType){
+    if(inputType === "email"){
+        js = processEmailedExcelToJSON(filename)
+    }
+    
+    if(inputType === "upload"){
+        js = processUploadedExcelToJSON(filename)
+    }
+    
     processExcelJSONtoDB(js, authorId, sheetId, writeType)
 }
 
@@ -61,6 +80,11 @@ processExcel = function(filename, authorId, sheetId, writeType){
 Meteor.methods({
     callProcessEmailedExcelToJSON: function(fname){
         res = processEmailedExcelToJSON(fname)
+        return res
+    }, 
+    callUploadedExcelToJSON: function(fname){
+        res = processUploadedExcelToJSON(fname)
+        
         return res
     }
 })

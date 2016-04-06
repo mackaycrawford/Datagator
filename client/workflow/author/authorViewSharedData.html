@@ -5,7 +5,7 @@
       <div class="row">
         <div class="col-xs-8">
           <select class="form-control shareGroupSelect" id="shareGroupsDropdown">
-            {{#each groups}}
+            {{#each sharedGroupsList}}
             <option value='{{_id}}'> {{groupName}} </option>
             {{/each}}
           </select>
@@ -14,7 +14,7 @@
           <button class="button btn btn-primary" id="getSharedDataButton">Run</button>
         </div>
         <div class="col-xs-2">
-          <button class="button btn-success btn" onclick='downloadCSV({ filename: "stock-data.csv" });'>Download</button>
+          <button class="button btn-default btn" onclick='downloadCSV({ filename: "stock-data.csv" });'>Download</button>
 
         </div>
       </div>

@@ -94,7 +94,7 @@ fetchAttachments = function() {
     // call the content url https://context.io/docs/2.0/accounts/files/content
     pf(wd[i]['file_id'], wd[i]['file_ext'], function(err, res) {
       console.log(wd[i]['storedFileName'])
-      processExcel(wd[i]['storedFileName'], wd[i]['authorId'], wd[i]['sheedId'], 'append')
+      processExcel(wd[i]['storedFileName'], wd[i]['authorId'], wd[i]['sheedId'], 'email', 'append')
     })
   }
 }

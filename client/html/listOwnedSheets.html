@@ -16,7 +16,7 @@
       <li class="active authorTab"><a data-toggle="tab" href="#yourFeeds">Your Feeds</a></li>
       <li class="authorTab"><a data-toggle="tab" href="#sharedFeeds">Shared Feeds</a></li>
 
-      <!-- <li class="active authorTab"><a data-toggle="tab" href="#authorImport">Public Feeds</a></li>-->
+      <li class="active authorTab"><a data-toggle="tab" href="#publicFeeds">Public Feeds</a></li>
     </ul>
   </div>
   <div class="row">
@@ -38,6 +38,9 @@
       </div>
       <div id="sharedFeeds" class="tab-pane fade">
         {{> listSharedFeeds}}
+      </div>
+        <div id="publicFeeds" class="tab-pane fade">
+        {{> listPublicFeeds}}
       </div>
     </div>
   </div>
