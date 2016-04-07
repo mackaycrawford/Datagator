@@ -16,6 +16,16 @@ Template.authorShareData.onRendered(function() {
     finalURL = baseURL + "/view?sheetId=" + sheetId + "&groupId=" + groupId
     return finalURL
   }
+  
+  buildPublicURL = function() {
+    u = window.location.href
+    uChars = u.search("/sheetManagement")
+    baseURL = u.substring(0, uChars)
+    sheetId = queryString()['sheetId']
+    finalURL = baseURL + "/view?sheetId=" + sheetId + "&groupId=public"
+    return finalURL
+  }
+  
 
   templateDisplayGroupSQL = function(groupId, groupName, sqlText) {
     t = "<div class='row shareRow' id='" + groupId + "'><div class='col-xs-2'></div><div class='col-xs-3'><div class='form-group'><input type='text' class='form-control' id='gName' readonly value='" + groupName + "'></div></div><div class='col-xs-3'><div class='form-group'><input type='text' class='form-control' id='sqlText' value='" + sqlText + "'></div></div><input type='hidden' id='gId' value='" + groupId + "' ><div class='col-xs-2'><div class='form-group'><!--<button type='button' class='btn btn-danger'>Delete</button>--><button type='button' class='btn btn-default updateShareButton'>Save </button></div></div></div><div class='row'><div class='col-xs-12'><input type='text' value='" + buildSharedGroupURL(groupId) + "'/></div></div>"
@@ -40,14 +50,17 @@ Template.authorShareData.onRendered(function() {
       if (res['publicAcessType'] === "noAccess") {
         $("#publicAccessSelect").val("noAccess")
         $("#publicQuery").hide()
+        $("#publicURLRow").hide()
       }
       if (res['publicAcessType'] === "allAccess") {
         $("#publicAccessSelect").val("allAccess")
         $("#publicQuery").hide()
+        $("#publicURLRow").show()
       }
       if (res['publicAcessType'] === "accessByQuery") {
         $("#publicAccessSelect").val("accessByQuery")
         $("#publicQuery").show()
+        $("#publicURLRow").show()
         $("#publicQueryText").val(res['sql'])
       }
     })
@@ -124,6 +137,10 @@ Template.authorShareData.onRendered(function() {
   $(document).ready(function() {
     //renderShareGroupsInterface(stub, stubSheetId)
     $("#publicQuery").hide()
+    $("#publicURLRow").hide()
+    $("#publicURLValue").val(buildPublicURL())
+    
+    
     Meteor.call('server_getUserCreatedShareGroups', function(err, res) {
       if (typeof(res) != 'undefined') {
         renderShareGroupsInterface(res, queryString()['sheetId'])
@@ -134,8 +151,16 @@ Template.authorShareData.onRendered(function() {
       cv = $("#publicAccessSelect").val()
       if (cv === "accessByQuery") {
         $("#publicQuery").show()
-      } else {
+        $("#publicURLRow").show()
+        
+      } if (cv === "allAccess") {
         $("#publicQuery").hide()
+        $("#publicURLRow").show()
+      } 
+      
+      if (cv === "noAccess") {
+        $("#publicQuery").hide()
+        $("#publicURLRow").hide()
       }
     })
 
