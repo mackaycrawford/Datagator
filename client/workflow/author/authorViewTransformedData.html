@@ -1,25 +1,38 @@
 <template name="authorViewTransformedData">
-    <div class="row slightMarginTopBottom">
+    <div class="row actionRow">
     <div class="col-xs-3"></div>
-    <div class="col-xs-6">
-      <div class="row">
-        <div class="col-xs-8">
-        <input type="text" class="form-control" id="transformedSqlText" />
+    
+    
+        <div class="col-xs-6 noPadding">
+      <form class="form-inline" id="queryForm">
+        <div class="form-group">
+          <input type="text" class="form-control" id="transformedSqlText" placeholder="Query Text" size="50" >
+          <span id="faux" style="display:none;"></span>
         </div>
-            <div class="col-xs-4">
-      <button class="button btn btn-primary" id="runTransformedSql">Run</button>
-              <button class="button btn-default btn" onclick='downloadCSV({ filename: "datagator.csv" });'>Download</button>
+        <button class="btn btn-default" id="runTransformedSql">Run</button>
+        <button class="button btn-primary btn pull-right" onclick='downloadCSV({ filename: "datagator.csv" });'>Download</button>
+      </form>
 
     </div>
-      </div>
-    </div>
+    
     <div class="col-xs-3"></div>
   </div>
 
   <div class="row">
-    <div class="col-xs-12">
-  <div id="authorTransformedDataGrid"></div>
-  
+    <div class="col-xs-3">
+
+    </div>
+    <div class="col-xs-6 noPadding">
+      <div class="panel panel-default">
+        <div class="panel-heading">Panel Heading</div>
+        <div class="panel-body withScroll">
+          <div id="authorTransformedDataGrid"></div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-3">
+
+    </div>
   </div>
-  </div>
+
 </template>

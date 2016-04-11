@@ -153,6 +153,7 @@ Meteor.methods({
     return true
 
   },
+  
 
   getAuthorTransformations: function(sheetId) {
     return sheetDefinitions.find({

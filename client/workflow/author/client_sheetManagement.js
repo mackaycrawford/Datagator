@@ -78,7 +78,10 @@ Template.sheetManagement.onRendered(function() {
   })
 
   showSheetName = function(sheetName) {
-    $("#sheetNameText").html(sheetName)
+    //sName = "<span class='glyphicon glyphicon-file' aria-hidden='true'></span>"
+    sName = ""
+    
+    $("#sheetNameText").html(sName + sheetName)
     $("#sheetNameTextInput").val(sheetName)
   }
 

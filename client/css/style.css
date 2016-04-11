@@ -3,11 +3,6 @@
     margin-bottom: 20px;
 }
 
-#sheetNameText{
-    position: relative; 
-    top: 5px; 
-    font-size: 1.3em;
-}
 
 #downloadLink{
     position: relative; 
@@ -38,10 +33,10 @@
 
 
 .tabTitle{
-    font-size: 1.2em;
+    font-size: 1.0em;
 }
 
-
+/* This is
 
 .nav-tabs > li, .nav-pills > li {
     float:none;
@@ -53,6 +48,79 @@
 .nav-tabs, .nav-pills {
     text-align:center;
 }
-/* This is
+
 a multi-line
 comment */
+
+#sheetNameText {
+    color: #4078c0;
+    text-decoration: none;
+    font-size: 18px;
+    
+}
+
+/* Latest compiled and minified CSS included as External Resource*/
+
+body {
+  font-family: Helvetica, arial;
+  font-size: 13px;
+  color: #888;
+}
+
+.titleBar {
+  background-color: #fafafa;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.headerBar {
+  margin: 0px;
+}
+
+#tabsBar {
+  background-color: #fafafa;
+}
+
+.lineFill {
+  border: solid #dfdddf 1px;
+  height: 42px;
+  border-top: 0px;
+  border-right: 0px;
+  border-left: 0px;
+  margin: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.mainTabs {
+  margin: 0px;
+  margin-left: 0px;
+  margin-right: 0px;
+}
+
+.noPadding {
+  padding: 0px;
+}
+
+#documentUserName {
+  color: #4078c0;
+  text-decoration: none;
+}
+
+#documentDivider {
+  color: #666;
+}
+
+#documentDocumentName {
+  color: #4078c0;
+  text-decoration: none;
+}
+
+.actionRow {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.withScroll{
+    overflow:  scroll;
+}
